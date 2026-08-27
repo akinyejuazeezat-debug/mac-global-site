@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — MAC Global Travels & Tours</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { navy: { DEFAULT: '#0A2A43', deep: '#071B2C' }, gold: { DEFAULT: '#C9972F', light: '#E7C468' } },
+      fontFamily: { display: ['"Playfair Display"', 'serif'], sans: ['Manrope', 'sans-serif'] },
+    } } }
+  </script>
+</head>
+<body class="bg-navy-gradient min-h-screen flex items-center justify-center p-5 font-sans">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-8">
+      <span class="inline-flex h-14 w-14 items-center justify-center rounded-sm bg-gold text-navy-deep font-display font-extrabold text-2xl mb-4">M</span>
+      <h1 class="font-display text-2xl text-white">MAC Global Travels Admin</h1>
+      <p class="text-white/50 text-sm mt-1">Sign in to manage your website</p>
+    </div>
+
+    <form id="login-form" class="pass p-8 space-y-5">
+      <div>
+        <label for="email" class="block text-sm font-bold text-navy mb-1.5">Email Address</label>
+        <input id="email" name="email" type="email" required autocomplete="username" class="w-full border border-[var(--line)] rounded-sm px-4 py-3 text-sm focus:border-navy outline-none">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-bold text-navy mb-1.5">Password</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password" class="w-full border border-[var(--line)] rounded-sm px-4 py-3 text-sm focus:border-navy outline-none">
+      </div>
+      <p id="login-error" class="text-sm font-semibold text-red-600 hidden"></p>
+      <button type="submit" class="btn btn-navy w-full !py-3.5">Sign In</button>
+      <a href="../index.html" class="block text-center text-sm text-[var(--ink-soft)] hover:text-navy">← Back to website</a>
+    </form>
+
+    <div class="mt-6 pass p-5 text-xs text-[var(--ink-soft)] leading-relaxed">
+      <strong class="text-navy">Demo credentials</strong> (seeded automatically, stored only as a bcrypt hash in this browser):<br>
+      Email: <code class="text-navy">macservices950@gmail.com</code> · Password: <code class="text-navy">0000</code><br>
+      Change this password immediately after logging in, from Settings.
+    </div>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script>
+    if(mgtAdminSession()){ window.location.href = 'dashboard.html'; }
+    document.getElementById('login-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = this.email.value;
+      const password = this.password.value;
+      const result = mgtAdminLogin(email, password);
+      const err = document.getElementById('login-error');
+      if(result.ok){
+        window.location.href = 'dashboard.html';
+      } else {
+        err.textContent = result.error;
+        err.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

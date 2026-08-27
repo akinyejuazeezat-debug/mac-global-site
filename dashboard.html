@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — MAC Global Travels Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { navy: { DEFAULT: '#0A2A43', deep: '#071B2C' }, gold: { DEFAULT: '#C9972F', light: '#E7C468' } },
+      fontFamily: { display: ['"Playfair Display"', 'serif'], sans: ['Manrope', 'sans-serif'] },
+    } } }
+  </script>
+</head>
+<body class="admin-shell font-sans text-ink">
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script>mgtRequireAuth();</script>
+  <script src="../assets/js/admin.js"></script>
+
+  <div class="flex">
+
+    <aside id="admin-sidebar" class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-deep text-white/85 min-h-screen p-5">
+      <a href="../index.html" class="flex items-center gap-3 mb-8 px-1">
+        <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-navy-deep font-display font-extrabold text-lg">M</span>
+        <span class="font-display text-white text-base leading-tight">MAC GLOBAL<br><span class="text-xs tracking-widest text-gold">ADMIN PANEL</span></span>
+      </a>
+      <nav class="flex flex-col gap-1.5">
+      <a href="dashboard.html" class="sidebar-link active"><span>🏠</span><span>Dashboard</span></a>
+      <a href="packages.html" class="sidebar-link"><span>🧳</span><span>Tour Packages</span></a>
+      <a href="blog.html" class="sidebar-link"><span>📰</span><span>Blog &amp; News</span></a>
+      <a href="messages.html" class="sidebar-link"><span>✉️</span><span>Messages</span></a>
+      <a href="settings.html" class="sidebar-link"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-white/10 flex flex-col gap-1.5">
+        <a href="../index.html" target="_blank" class="sidebar-link"><span>🌐</span><span>View Website</span></a>
+        <button onclick="mgtAdminLogout()" class="sidebar-link text-left w-full"><span>🚪</span><span>Log Out</span></button>
+      </div>
+    </aside>
+    <div class="flex-1 min-w-0">
+      <header class="bg-white border-b border-[var(--line)] sticky top-0 z-30">
+        <div class="flex items-center justify-between px-5 sm:px-8 h-16">
+          <div class="flex items-center gap-3">
+            <button id="admin-nav-toggle" class="lg:hidden p-2 -ml-2" aria-label="Toggle menu">
+              <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <h1 class="font-display text-xl text-navy">Dashboard</h1>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="hidden sm:inline text-[var(--ink-soft)]">Signed in as</span>
+            <span class="font-bold text-navy" id="admin-email-badge">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="p-5 sm:p-8">
+
+        <p class="text-[var(--ink-soft)] mb-6">Welcome back — here's what's happening on your website.</p>
+        <div id="dashboard-stats" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10"></div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 admin-card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-display text-lg text-navy">Recent Messages</h2>
+              <a href="messages.html" class="text-xs font-bold text-navy hover:text-gold">View all →</a>
+            </div>
+            <div id="dashboard-recent-messages"></div>
+          </div>
+          <div class="admin-card p-6">
+            <h2 class="font-display text-lg text-navy mb-4">Quick Actions</h2>
+            <div class="flex flex-col gap-3">
+              <a href="packages.html" class="btn btn-navy !py-3 justify-start">+ Add Tour Package</a>
+              <a href="blog.html" class="btn btn-navy !py-3 justify-start">+ Write Blog Post</a>
+              <a href="settings.html" class="btn btn-ghost !py-3 justify-start">Edit Site Settings</a>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const _sess = mgtAdminSession();
+    if(_sess){ document.getElementById('admin-email-badge').textContent = _sess.email; }
+    const _toggle = document.getElementById('admin-nav-toggle');
+    const _sidebar = document.getElementById('admin-sidebar');
+    if(_toggle && _sidebar){
+      _toggle.addEventListener('click', () => {
+        _sidebar.classList.toggle('hidden');
+        _sidebar.classList.toggle('flex');
+        _sidebar.classList.add('fixed', 'z-40', 'inset-y-0', 'left-0');
+      });
+    }
+  </script>
+</body>
+</html>

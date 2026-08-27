@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — MAC Global Travels Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { navy: { DEFAULT: '#0A2A43', deep: '#071B2C' }, gold: { DEFAULT: '#C9972F', light: '#E7C468' } },
+      fontFamily: { display: ['"Playfair Display"', 'serif'], sans: ['Manrope', 'sans-serif'] },
+    } } }
+  </script>
+</head>
+<body class="admin-shell font-sans text-ink">
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script>mgtRequireAuth();</script>
+  <script src="../assets/js/admin.js"></script>
+
+  <div class="flex">
+
+    <aside id="admin-sidebar" class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-deep text-white/85 min-h-screen p-5">
+      <a href="../index.html" class="flex items-center gap-3 mb-8 px-1">
+        <span class="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-navy-deep font-display font-extrabold text-lg">M</span>
+        <span class="font-display text-white text-base leading-tight">MAC GLOBAL<br><span class="text-xs tracking-widest text-gold">ADMIN PANEL</span></span>
+      </a>
+      <nav class="flex flex-col gap-1.5">
+      <a href="dashboard.html" class="sidebar-link"><span>🏠</span><span>Dashboard</span></a>
+      <a href="packages.html" class="sidebar-link"><span>🧳</span><span>Tour Packages</span></a>
+      <a href="blog.html" class="sidebar-link"><span>📰</span><span>Blog &amp; News</span></a>
+      <a href="messages.html" class="sidebar-link"><span>✉️</span><span>Messages</span></a>
+      <a href="settings.html" class="sidebar-link active"><span>⚙️</span><span>Settings</span></a>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-white/10 flex flex-col gap-1.5">
+        <a href="../index.html" target="_blank" class="sidebar-link"><span>🌐</span><span>View Website</span></a>
+        <button onclick="mgtAdminLogout()" class="sidebar-link text-left w-full"><span>🚪</span><span>Log Out</span></button>
+      </div>
+    </aside>
+    <div class="flex-1 min-w-0">
+      <header class="bg-white border-b border-[var(--line)] sticky top-0 z-30">
+        <div class="flex items-center justify-between px-5 sm:px-8 h-16">
+          <div class="flex items-center gap-3">
+            <button id="admin-nav-toggle" class="lg:hidden p-2 -ml-2" aria-label="Toggle menu">
+              <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <h1 class="font-display text-xl text-navy">Settings</h1>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="hidden sm:inline text-[var(--ink-soft)]">Signed in as</span>
+            <span class="font-bold text-navy" id="admin-email-badge">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="p-5 sm:p-8">
+
+        <p class="text-[var(--ink-soft)] mb-6">Update your logo, brand colours and contact details shown across the website.</p>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+          <form id="settings-form" class="lg:col-span-2 admin-card p-7 space-y-6">
+            <div>
+              <h3 class="font-display text-lg text-navy mb-4">Branding</h3>
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div class="sm:col-span-2">
+                  <label class="block text-sm font-bold text-navy mb-1.5">Site Name</label>
+                  <input name="siteName" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-sm font-bold text-navy mb-1.5">Tagline</label>
+                  <input name="tagline" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-navy mb-1.5">Primary Colour (Navy)</label>
+                  <input name="colorNavy" type="color" class="w-full h-11 border border-[var(--line)] rounded-sm px-1.5 py-1">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-navy mb-1.5">Accent Colour (Gold)</label>
+                  <input name="colorGold" type="color" class="w-full h-11 border border-[var(--line)] rounded-sm px-1.5 py-1">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-sm font-bold text-navy mb-1.5">Logo</label>
+                  <input id="logo-input" type="file" accept="image/*" class="w-full text-sm">
+                  <img id="logo-preview" src="" alt="" class="hidden mt-3 h-16 w-16 object-contain rounded-sm border border-[var(--line)] bg-white p-1">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display text-lg text-navy mb-4">Contact Information</h3>
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div><label class="block text-sm font-bold text-navy mb-1.5">Phone Number</label><input name="phone" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div><label class="block text-sm font-bold text-navy mb-1.5">WhatsApp Number</label><input name="whatsapp" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy" placeholder="+234..."></div>
+                <div><label class="block text-sm font-bold text-navy mb-1.5">Email Address</label><input name="email" type="email" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div><label class="block text-sm font-bold text-navy mb-1.5">Office Hours</label><input name="officeHours" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div class="sm:col-span-2"><label class="block text-sm font-bold text-navy mb-1.5">Office Address</label><input name="address" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div class="sm:col-span-2"><label class="block text-sm font-bold text-navy mb-1.5">Google Maps Search Query</label><input name="mapQuery" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"><p class="text-xs text-[var(--ink-soft)] mt-1">Used to embed the map on the Contact page — e.g. a Plus Code or full address.</p></div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display text-lg text-navy mb-4">Social Links</h3>
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div><label class="block text-sm font-bold text-navy mb-1.5">Facebook URL</label><input name="facebook" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div><label class="block text-sm font-bold text-navy mb-1.5">TikTok URL</label><input name="tiktok" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div class="sm:col-span-2"><label class="block text-sm font-bold text-navy mb-1.5">WhatsApp Channel URL</label><input name="whatsappChannel" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+                <div class="sm:col-span-2"><label class="block text-sm font-bold text-navy mb-1.5">Instagram URL (optional)</label><input name="instagram" class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-navy">Save Settings</button>
+            <p id="settings-status" class="text-sm mt-1"></p>
+          </form>
+
+          <div class="admin-card p-7 h-fit">
+            <h3 class="font-display text-lg text-navy mb-4">Change Admin Password</h3>
+            <form id="password-form" class="space-y-4">
+              <div><label class="block text-sm font-bold text-navy mb-1.5">Current Password</label><input name="currentPassword" type="password" required class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+              <div><label class="block text-sm font-bold text-navy mb-1.5">New Password</label><input name="newPassword" type="password" required class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+              <div><label class="block text-sm font-bold text-navy mb-1.5">Confirm New Password</label><input name="confirmPassword" type="password" required class="w-full border border-[var(--line)] rounded-sm px-4 py-2.5 text-sm outline-none focus:border-navy"></div>
+              <button type="submit" class="btn btn-gold w-full">Update Password</button>
+              <p id="password-status" class="text-sm mt-1"></p>
+            </form>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const _sess = mgtAdminSession();
+    if(_sess){ document.getElementById('admin-email-badge').textContent = _sess.email; }
+    const _toggle = document.getElementById('admin-nav-toggle');
+    const _sidebar = document.getElementById('admin-sidebar');
+    if(_toggle && _sidebar){
+      _toggle.addEventListener('click', () => {
+        _sidebar.classList.toggle('hidden');
+        _sidebar.classList.toggle('flex');
+        _sidebar.classList.add('fixed', 'z-40', 'inset-y-0', 'left-0');
+      });
+    }
+  </script>
+</body>
+</html>
