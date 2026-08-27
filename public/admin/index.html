@@ -1,0 +1,69 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: "/"
+display_url: "/"
+logo_url: "/assets/background.png"
+
+collections:
+  - name: "content"
+    label: "Website Content"
+    files:
+      - label: "Site Settings"
+        name: "site_settings"
+        file: "data/site.json"
+        fields:
+          - { label: "Brand", name: "brand", widget: "string" }
+          - { label: "Slogan", name: "slogan", widget: "string" }
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Tagline", name: "hero_tagline", widget: "text" }
+          - { label: "About Heading", name: "about_heading", widget: "string" }
+          - { label: "About Text", name: "about_text", widget: "text" }
+          - { label: "About Audience", name: "about_audience", widget: "text" }
+          - { label: "About Promise", name: "about_promise", widget: "text" }
+          - { label: "Services Heading", name: "services_heading", widget: "string" }
+          - { label: "Services Text", name: "services_text", widget: "text" }
+          - { label: "Blog Heading", name: "blog_heading", widget: "string" }
+          - { label: "Blog Intro Text", name: "blog_text", widget: "text" }
+          - { label: "Contact Heading", name: "contact_heading", widget: "string" }
+          - { label: "Contact Text", name: "contact_text", widget: "text" }
+          - { label: "Facebook URL", name: "facebook_url", widget: "string" }
+          - { label: "TikTok URL", name: "tiktok_url", widget: "string" }
+          - { label: "WhatsApp Channel URL", name: "whatsapp_channel_url", widget: "string" }
+          - { label: "WhatsApp Chat URL", name: "whatsapp_chat_url", widget: "string" }
+      - label: "Services"
+        name: "services"
+        file: "data/services.json"
+        fields:
+          - label: "Service Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Icon", name: "icon", widget: "string", hint: "Use emoji or short symbol" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Enabled", name: "enabled", widget: "boolean", default: true }
+
+      - label: "Blog Posts"
+        name: "blog_posts"
+        file: "data/blog.json"
+        fields:
+          - label: "Posts"
+            name: "posts"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Slug", name: "slug", widget: "string", required: false }
+              - { label: "Category", name: "category", widget: "string" }
+              - { label: "Publish Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { label: "Excerpt", name: "excerpt", widget: "text" }
+              - { label: "Content", name: "content", widget: "markdown" }
+              - { label: "Published", name: "published", widget: "boolean", default: true }
